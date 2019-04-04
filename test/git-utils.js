@@ -1,7 +1,5 @@
 'use strict';
 
-var fs = require('fs');
-var os = require('os');
 
 var sinon = require('sinon');
 var should = require('should');
@@ -20,6 +18,6 @@ describe('git-utils', function() {
   });
 
   describe('getReposbystars()', function() {
-    
+
   });
 });

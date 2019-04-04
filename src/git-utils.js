@@ -60,47 +60,56 @@ command
   .option('-l, --limit [limit_count]', 'Limit results count')
   .parse(process.argv);
 
-  exports = module.exports = {
+exports = module.exports = {
 
-  getReposbystars: function(orgname,limit) {
+  getReposbystars: function(orgname, limit) {
+    var output = octokit.paginate('GET /search/repositories?q=user%3A{user}+&s=stars&type=Repositories', {
+      user: orgname
+    }, response => response.data.items.map(repos => repos));
 
-    var output = octokit.paginate('GET /search/repositories?q=user%3A{user}+&s=stars&type=Repositories', { user: orgname },response => response.data.items.map(repos => repos));
-
-    output = output.then(response=>response.map(repos => repos.full_name + '   :    ' + repos.stargazers_count));
+    output = output.then(response => response.map(repos => repos.full_name + '   :    ' + repos.stargazers_count));
     output.then(repos => {
-    console.log('Most starred repos : count\n' + JSON.stringify(repos, null, 2));
-    })
+        console.log('Most starred repos : count\n' + JSON.stringify(repos, null, 2));
+      })
+      .catch((error) => {
+        helper.error_handler(error);
+      });
   },
-  getReposByForks: function(orgName,limit) {
-    var output = octokit.paginate('GET /search/repositories?q=user%3A{user}+&s=stars&type=Repositories', { user: orgName },response => response.data.items.map(repos => repos));
-    output = output.then(response=>response.map(repos => repos.full_name + '   :   ' + repos.forks));
+  getReposByForks: function(orgName, limit) {
+    var output = octokit.paginate('GET /search/repositories?q=user%3A{user}+&s=stars&type=Repositories', {
+      user: orgName
+    }, response => response.data.items.map(repos => repos));
+    output = output.then(response => response.map(repos => repos.full_name + '   :   ' + repos.forks));
     output.then(repos => {
       console.log('Most forked repos : count\n' + JSON.stringify(repos, null, 2));
     })
+    .catch((error) => {
+      helper.error_handler(error);
+    });
   },
-  getReposByPullRequest: function(orgname,limit) {
+  getReposByPullRequest: function(orgname, limit) {
     helper.feature_message();
     return;
-},
-  getReposByContrPercent: function(orgname,limit) {
+  },
+  getReposByContrPercent: function(orgname, limit) {
     helper.feature_message();
     return;
-    },
+  },
 };
 
-  /* istanbul ignore if */
-  if (process.env.NODE_ENV !== 'test') {
-    if (! (command.star || command.fork || command.pull || command.cont) && (!command.limit)) {
-      console.log('one of the  --star,--fork,--pull,--cont --limit is required');
-      command.help();
-    }
-    if(command.star) {
-      exports.getReposbystars(command.star,command.limit);
-    } else if(command.fork){
-      exports.getReposByForks(command.fork,command.limit);
-    }else if(command.pull){
-        exports.getReposByPullRequest(command.pull,command.limit);
-    }else if(command.cont){
-      exports.getReposByContrPercent(command.cont,command.limit);
-    }
+
+if (process.env.NODE_ENV !== 'test') {
+  if (!(command.star || command.fork || command.pull || command.cont) && (!command.limit)) {
+    console.log('one of the  --star,--fork,--pull,--cont --limit is required');
+    command.help();
   }
+  if (command.star) {
+    exports.getReposbystars(command.star, command.limit);
+  } else if (command.fork) {
+    exports.getReposByForks(command.fork, command.limit);
+  } else if (command.pull) {
+    exports.getReposByPullRequest(command.pull, command.limit);
+  } else if (command.cont) {
+    exports.getReposByContrPercent(command.cont, command.limit);
+  }
+}
