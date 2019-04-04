@@ -49,9 +49,8 @@ Update the git-pat-token to your github generate PAT-token (see here https://hel
 
 ### Testing
 
-    To run  unit tests
 
-    * update the token to your github PAT token under config/default.json
+* update the token to your github PAT token under config/default.json
 
     ```
     {
@@ -59,6 +58,7 @@ Update the git-pat-token to your github generate PAT-token (see here https://hel
       "default-limit":10
     }
     ```
-    * then run the following
+
+* then run the following
 
     $ node src/git-utils.js  -f [orgname] -l [limit count]
