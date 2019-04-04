@@ -1,4 +1,4 @@
-git-utils-
+github-utils
 ==========================
 
 This tool provides command line options to query github organization.
