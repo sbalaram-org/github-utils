@@ -31,12 +31,12 @@ Update the git-pat-token to your github generate PAT-token (see here https://hel
 
 ### Top-N repos by number of stars
 
-$ node src/git-utils.js  -s [orgname] -l [limit count]
+    $ node src/git-utils.js  -s [orgname] -l [limit count]
 
 
 ### Top-N repos by number of forks
 
-$ node src/git-utils.js  -f [orgname] -l [limit count]
+    $ node src/git-utils.js  -f [orgname] -l [limit count]
 
 
 ### Top-N repos by number of Pull Requests (PRs).
@@ -45,20 +45,20 @@ $ node src/git-utils.js  -f [orgname] -l [limit count]
 
 ### Top-N repos by contribution percentage (PRs/forks).
 
-   Feature in development coming soon
+    Feature in development coming soon
 
 ### Testing
 
-To run  unit tests
+    To run  unit tests
 
-* update the token to your github PAT token under config/default.json
+    * update the token to your github PAT token under config/default.json
 
-```
-{
-  "git-pat-token": "xxxx",
-  "default-limit":10
-}
-```
-* then run the following
+    ```
+    {
+      "git-pat-token": "xxxx",
+      "default-limit":10
+    }
+    ```
+    * then run the following
 
-$ node src/git-utils.js  -f [orgname] -l [limit count]
+    $ node src/git-utils.js  -f [orgname] -l [limit count]
